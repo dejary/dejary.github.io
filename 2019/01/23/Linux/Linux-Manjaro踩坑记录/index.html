@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Manjaro踩坑记录 | 墨岩小站</title><meta name="description" content="对比ubuntu、CentOS，我更加喜欢Manjaro系统，这里主要记录下自己使用过程中的一些问题和经验。    Win10 Manjaro双系统安装建议最好还是用UEFI+GRUB的引导方案，我的电脑是双硬盘，两个系统分别安装在2个硬盘上。硬盘分区是，只要存在一个EFI分区就行，EFI分区专门用来放引导索引的，另外一个硬盘全市GPT主分区。安装时，必须先安装WIN10系统，否则Manjaro会"><meta name="keywords" content="Manjaro"><meta name="author" content="Dejary"><meta name="copyright" content="Dejary"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Manjaro踩坑记录"><meta name="twitter:description" content="对比ubuntu、CentOS，我更加喜欢Manjaro系统，这里主要记录下自己使用过程中的一些问题和经验。    Win10 Manjaro双系统安装建议最好还是用UEFI+GRUB的引导方案，我的电脑是双硬盘，两个系统分别安装在2个硬盘上。硬盘分区是，只要存在一个EFI分区就行，EFI分区专门用来放引导索引的，另外一个硬盘全市GPT主分区。安装时，必须先安装WIN10系统，否则Manjaro会"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Manjaro踩坑记录"><meta property="og:url" content="https://dejary.github.io/2019/01/23/Linux/Linux-Manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"><meta property="og:site_name" content="墨岩小站"><meta property="og:description" content="对比ubuntu、CentOS，我更加喜欢Manjaro系统，这里主要记录下自己使用过程中的一些问题和经验。    Win10 Manjaro双系统安装建议最好还是用UEFI+GRUB的引导方案，我的电脑是双硬盘，两个系统分别安装在2个硬盘上。硬盘分区是，只要存在一个EFI分区就行，EFI分区专门用来放引导索引的，另外一个硬盘全市GPT主分区。安装时，必须先安装WIN10系统，否则Manjaro会"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2019-01-23T09:02:18.000Z"><meta property="article:modified_time" content="2020-05-14T12:23:32.865Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://dejary.github.io/2019/01/23/Linux/Linux-Manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"><link rel="prev" title="移植Qt5.7到嵌入式Linux系统" href="https://dejary.github.io/2019/01/24/QT/QT-%E7%A7%BB%E6%A4%8DQt5-7%E5%88%B0%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E7%B3%BB%E7%BB%9F/"><link rel="next" title="dropbear使用和配置" href="https://dejary.github.io/2019/01/23/Linux/arm/dropbear%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">47</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">31</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Win10-Manjaro双系统安装"><span class="toc-number">1.</span> <span class="toc-text">Win10 Manjaro双系统安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置软件源"><span class="toc-number">1.1.</span> <span class="toc-text">设置软件源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新系统"><span class="toc-number">1.2.</span> <span class="toc-text">更新系统</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#必要软件安装"><span class="toc-number">2.</span> <span class="toc-text">必要软件安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#vim"><span class="toc-number">2.1.</span> <span class="toc-text">vim</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#中文输入法"><span class="toc-number">2.2.</span> <span class="toc-text">中文输入法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zsh"><span class="toc-number">2.3.</span> <span class="toc-text">zsh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟机"><span class="toc-number">2.4.</span> <span class="toc-text">虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其它软件安装"><span class="toc-number">2.5.</span> <span class="toc-text">其它软件安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决-Windows-和-Manjaro-双系统时间差8小时的问题"><span class="toc-number">2.6.</span> <span class="toc-text">解决 Windows 和 Manjaro 双系统时间差8小时的问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pacman介绍"><span class="toc-number">3.</span> <span class="toc-text">pacman介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#其它问题解决"><span class="toc-number">4.</span> <span class="toc-text">其它问题解决</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#科学上网"><span class="toc-number">4.1.</span> <span class="toc-text">科学上网</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmware-tools-共享文件夹的问题"><span class="toc-number">4.2.</span> <span class="toc-text">vmware tools 共享文件夹的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ncurses5-compat-libs"><span class="toc-number">4.3.</span> <span class="toc-text">ncurses5-compat-libs</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">墨岩小站</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Manjaro踩坑记录</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2019-01-23 17:02:18"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-01-23</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-14 20:23:32"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-14</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>对比ubuntu、CentOS，我更加喜欢Manjaro系统，这里主要记录下自己使用过程中的一些问题和经验。</p>
+<a id="more"></a> 
+
+<h1 id="Win10-Manjaro双系统安装"><a href="#Win10-Manjaro双系统安装" class="headerlink" title="Win10 Manjaro双系统安装"></a>Win10 Manjaro双系统安装</h1><p>建议最好还是用UEFI+GRUB的引导方案，我的电脑是双硬盘，两个系统分别安装在2个硬盘上。硬盘分区是，只要存在一个EFI分区就行，EFI分区专门用来放引导索引的，另外一个硬盘全市GPT主分区。<br>安装时，必须先安装WIN10系统，否则Manjaro会启动不起来，我猜测是WIN10会破坏掉引导分区。安装完WIN10后，可以再制作一个老毛桃启动盘，进入启动盘的系统后可以开一下EFI分区里面的内容。</p>
+<p>安装WIN10系统没什么好讲的。安装完成后，首先我们要关闭这个功能：进入 BIOS 找到 Secure Boot，选择 disabled，这样就关闭了。当然，有些人进入 BIOS 会发现 Secure Boot 这个选项是灰色的（比如我的就是），这时你需要先给你的 BIOS 设一个密码，然后就能关 Secure Boot 了。</p>
+<p>下载rufus，用来制作manjaro启动盘，制作时请选择dd模式，manjaro必须要dd模式才可以安装。启动安装时主要是在选择挂在点的时候，直接将/boot/efi 挂在到已存在的EFI分区即可，不要选择格式化/boot/efi所挂在的点，这样安装过程中不会破坏掉原有的内容。安装完成后，两个系统的引导文件都存在与EFI分区中。</p>
+<p>重启之后，不出意外的话，你会直接进入 Windows 10，不要担心，这时 Linux 已经安装成功了，我们只需要将引导文件替换一下。在WIN10上进入管理员命令行。方法：win + x，再按 a<br>输入 <code>bcdedit /set ‘{bootmgr}’ path \EFI\Manjaro\grubx64.efi</code>。提示操作成功的话，就完成了。</p>
+<p>这部分参考这个文章，描写得很清楚：<a href="https://www.jianshu.com/p/5007e555ec12" target="_blank" rel="noopener">https://www.jianshu.com/p/5007e555ec12</a></p>
+<h2 id="设置软件源"><a href="#设置软件源" class="headerlink" title="设置软件源"></a>设置软件源</h2><p>使用命令sudo pacman-mirrors -i -c China -m rank, 然后选择速度最快的即可。</p>
+<h2 id="更新系统"><a href="#更新系统" class="headerlink" title="更新系统"></a>更新系统</h2><p>一条命令<code>sudo pacman -Syyu</code> 即可更新系统到最新版，更新系统过程若是提示 /usr/lib/xfce4/thunar-archive-plugin/engrampa.tap 冲突。可以通过如下的方法来处理：</p>
+<ul>
+<li>pacman -Qo /usr/lib/xfce4/thunar-archive-plugin/engrampa.tap 查询到/usr/lib/xfce4/thunar-archive-plugin/engrampa.tap 由 engrampa-thunar-plugin 1.0-2 所拥有然后搜索此软件包engrampa-thunar-plugin 卸载后 就正常了</li>
+<li>或者直接删除/usr/lib/xfce4/thunar-archive-plugin/engrampa.tap</li>
+</ul>
+<p>然后用命令行运行 <code>pacman -S archlinuxcn-keyring</code></p>
+<h1 id="必要软件安装"><a href="#必要软件安装" class="headerlink" title="必要软件安装"></a>必要软件安装</h1><h2 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S vim </span><br><span class="line">bash &lt;(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;liuchengxu&#x2F;space-vim&#x2F;master&#x2F;install.sh)</span><br></pre></td></tr></table></figure>
+
+<h2 id="中文输入法"><a href="#中文输入法" class="headerlink" title="中文输入法"></a>中文输入法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S fcitx-im # 全部安装</span><br><span class="line">sudo pacman -S fcitx-configtool # 图形化配置工具</span><br><span class="line">sudo pacman -S fcitx-sogoupinyin 或者 fcitx-googlepinyin</span><br></pre></td></tr></table></figure>
+<p>vim ~/.xprofile 打开或者创建xprofile文件，添加如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GTK_IM_MODULE&#x3D;fcitx</span><br><span class="line">export QT_IM_MODULE&#x3D;fcitx</span><br><span class="line">export XMODIFIERS&#x3D;&quot;@im&#x3D;fcitx&quot;</span><br></pre></td></tr></table></figure>
+<p>重启设备或者在终端中输入fcitx启动服务之后，在系统的右下角右一个键盘图标，右击这个图标，打开配置管理工具，需要将搜狗拼音添加到输入方法中。</p>
+<h2 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S zsh</span><br><span class="line">	sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;robbyrussell&#x2F;oh-my-zsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br><span class="line">	chsh -s &#x2F;bin&#x2F;zsh</span><br></pre></td></tr></table></figure>
+
+<h2 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h2><p>使用命令<code>uname -r</code> 查看内核的版本，比如输出了4.14.69-1-MANJARO，那么你的内核版本为414<br>使用命令来安装virtualbox及它的插件，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -Sy virtualbox linux414-virtualbox-host-modules virtualbox-ext-oracle</span><br></pre></td></tr></table></figure>
+<p>使用如下命令<code>sudo gpasswd -a $USER vboxusers # $USER为当前用户</code>添加当前用户到vboxusers组<br>然后重新启动系统或执行<code>sudo modprobe vboxdrv</code></p>
+<p>参考：</p>
+<h2 id="其它软件安装"><a href="#其它软件安装" class="headerlink" title="其它软件安装"></a>其它软件安装</h2><p>在PACMAN管理工具的属性中可以开启AUR，通过界面来管理软件更加直观，剩下的软件基本上都可以通过软件中心来查找、安装和卸载。其它必须安装的软件有：</p>
+<ul>
+<li>git</li>
+<li>cmake</li>
+<li>uget</li>
+<li>aria2</li>
+<li>filezilla</li>
+<li>google-chrome</li>
+<li>netease-cloud-music</li>
+<li>peek 屏幕录像工具，小巧玲珑，可保存录像为gif动图和兼容于html5的webm视频；</li>
+<li>fish 一个不错的shell</li>
+</ul>
+<h2 id="解决-Windows-和-Manjaro-双系统时间差8小时的问题"><a href="#解决-Windows-和-Manjaro-双系统时间差8小时的问题" class="headerlink" title="解决 Windows 和 Manjaro 双系统时间差8小时的问题"></a>解决 Windows 和 Manjaro 双系统时间差8小时的问题</h2><p>电脑系统中有两个时间：</p>
+<ol>
+<li>硬件时间：保存在主板中，信息比较少没时区、夏令时的概念</li>
+<li>系统时间：又系统维护，独立于硬件时间，拥有时区、夏令时等信息</li>
+</ol>
+<p>系统时间又因为系统的不同使用了两种时间管理办法：</p>
+<ol>
+<li>localtime：本地时间，目前只有 Windows 在使用。</li>
+<li>UTC：是一种世界标准时间，Linux 这类类 UNIX 多数会使用，UTC 加减时区之后才是本地时间。</li>
+</ol>
+<p>然后问题就来了,Windows 认为硬件时间就是本地时间，所以会直接把主板中的时间拿来当做当前的时间。设置或同步时间后也会把“正确”的时间写入主板。而 Linux 认为硬件时间是 UTC 标准时间，Linux 时间同步后会把“正确”的时间 -8 之后作为标准 UTC 标准时间写入主板。</p>
+<p>具体操作是：在 Settings -&gt; Manjaro Settings Manager -&gt; Time and Date 中即可设置，建议起用”Set time and date automatically”, 根据情况来决定是否勾选 “Hardware clock in local time zone”</p>
+<h1 id="pacman介绍"><a href="#pacman介绍" class="headerlink" title="pacman介绍"></a>pacman介绍</h1><p>Pacman 是一个软件包管理器，作为ArchLinux发行版的一部分。简单来说，就是和apt-get之于Ubuntu一样，pacman就是Arch的apt-get。<br>Pacman的配置文件位于/etc/pacman.conf</p>
+<ol>
+<li>安装或者升级单个软件包，或者一列软件包（包含依赖包），使用如下命令：pacman -S package_name1 package_name2</li>
+<li>有时候在不同的软件仓库中，一个软件包有多个版本（比如extra和testing）。你可以选择一个来安装： pacman -S extra/package_name</li>
+<li>删除单个软件包，保留其全部已经安装的依赖关系： pacman -R package_name</li>
+<li>删除指定软件包，及其所有没有被其他已安装软件包使用的依赖关系：pacman -Rs package_name</li>
+<li>缺省的，pacman会备份被删除程序的配置文件，将它们加上*.pacsave扩展名。如果你在删除软件包时要同时删除相应的配置文件（这种行为在基于Debian的系统中称为清除purging），你可是使用命令：pacman -Rn package_name</li>
+<li>真正删除一个软件包、它的配置文件以及所有不再需要的依赖的命令如下：pacman -Rsn package_name</li>
+<li>一个指令来升级系统中所有已安装的包。升级的时间取决于你的系统有多新： pacman -Su</li>
+<li>将升级系统和同步仓库数据合成为一条指令：pacman -Syu</li>
+<li>包数据库中查询软件包，查询位置包含了包的名字和描述：pacman -Ss package</li>
+<li>要查询已安装的软件包：pacman -Qs package</li>
+<li>要获取已安装软件包所包含文件的列表：pacman -Ql package</li>
+<li>通过查询数据库获知目前你的文件系统中某个文件是属于哪个软件包： pacman -Qo /path/to/a/file</li>
+<li>安装一个’本地’包（不从源里）:pacman -U /path/to/package/package_name-version.pkg.tar.gz</li>
+<li>安装一个’远程’包（不从源里）：pacman -U <a href="http://url/package_name-version.pkg.tar.gz" target="_blank" rel="noopener">http://url/package_name-version.pkg.tar.gz</a></li>
+<li>清理当前未被安装软件包的缓存(/var/cache/pacman/pkg):pacman -Sc</li>
+<li>重新安装你系统中所有的软件包（仓库中已有的）：pacman -S $(pacman -Qq | grep -v “$(pacman -Qmq)”)</li>
+<li>获取本地软件包和它们大小的一个已排序清单列表：LANG=C pacman -Qi | sed -n ‘/^Name[^:]<em>: (.</em>)/{s//1 /;x};/^Installed[^:]<em>: (.</em>)/{s//1/;H;x;s/n//;p}’ | sort -nk2</li>
+</ol>
+<p>附注：<br>ArchLinux的版本库里面包括：<br>　　core-核心软件包<br>　　extra-其他常用软件<br>　　community-社区软件包，譬如Mysql等。<br>　　testing-正在测试阶段，还没有正式加入源的软件包。通常软件版本比较新，但是不是非常稳定<br>　　release-已经发布的软件包<br>　　unstable-非正式的软件包，可能包括以前版本的软件或者测试软件</p>
+<p>　　因为Pacman的软件都是从源里面更新，因此在/etc/pacman.d里面配置这些软件源的地址。在/etc/pacman.d目录里面分别有上面几种软件类型对应的文件名，可以自己手工配置这些软件源的地址。</p>
+<p>参考资料：<br><a href="https://linux.cn/article-9925-1.html" target="_blank" rel="noopener">https://linux.cn/article-9925-1.html</a></p>
+<h1 id="其它问题解决"><a href="#其它问题解决" class="headerlink" title="其它问题解决"></a>其它问题解决</h1><h2 id="科学上网"><a href="#科学上网" class="headerlink" title="科学上网"></a>科学上网</h2><p>本来计算使用shadowsocks-qt5 加 chrome插件SwitchyOmega。 但是无论怎么设置都不行。最后，我是在另外一台笔记本电脑上启用了局域网代理，这样才通过了设置成功得使得chrome可以科学上网。</p>
+<p>命令行下的代理设置按照如下的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;rofl0r&#x2F;proxychains-ng.git </span><br><span class="line">cd proxychains-ng </span><br><span class="line">.&#x2F;configure #配置</span><br><span class="line">sudo make &amp;&amp; sudo make install #编译安装</span><br><span class="line">cp .&#x2F;src&#x2F;proxychains.conf &#x2F;etc&#x2F;proxychains.conf #提取配置文件</span><br><span class="line">cd .. &amp;&amp; rm -rf proxychains-ng #删除安装文件</span><br><span class="line">vim &#x2F;etc&#x2F;proxychains.conf 更改最后一行的地址和端口</span><br></pre></td></tr></table></figure>
+<p>在需要使用代理的命令前加上 proxychain4，比如：<br>proxychains4 wget <a href="http://xxx.com/xxx.zip" target="_blank" rel="noopener">http://xxx.com/xxx.zip</a></p>
+<p>GIT的代理设置（暂不设置）<br>利用shadowsocks的socks5代理，配置好后明显加速。用下面两条命令配置好后，保持shadowsocks客户端开启就行了。<br>git config –global http.proxy ‘socks5://127.0.0.1:1080’<br>git config –global https.proxy ‘socks5://127.0.0.1:1080’ </p>
+<h2 id="vmware-tools-共享文件夹的问题"><a href="#vmware-tools-共享文件夹的问题" class="headerlink" title="vmware tools 共享文件夹的问题"></a>vmware tools 共享文件夹的问题</h2><p>如果时通过虚拟机来安装manjaro，很有可能重启后，就无法自动的显示共享文件夹了。需要手动的运行启动才行。不管手动还是自动，都需要先在虚拟机的配置中添加需要共享的文件夹。进入虚拟机操作系统后，通过 <code>vmware-hgfsclient</code> 命令查看已经配置的共享目录信息。</p>
+<p>使用如下的命令来挂载共享目录，可以将以下的命令写入到一个脚本文件中，比如hgfs.sh，每次开机后手动执行一次，也不是很麻烦的事。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir &lt;shared folders root directory&gt;</span><br><span class="line">sudo vmhgfs-fuse -o allow_other -o auto_unmount .host:&#x2F;&lt;shared_folder&gt; &lt;shared folders root directory&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ncurses5-compat-libs"><a href="#ncurses5-compat-libs" class="headerlink" title="ncurses5-compat-libs"></a>ncurses5-compat-libs</h2><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a href="https://wiki.manjaro.org/index.php?title=Main_Page" target="_blank" rel="noopener">wiki</a></li>
+<li><a href="https://medium.com/@ribomo42/install-official-vmware-tools-on-arch-linux-15afd5b848ed" target="_blank" rel="noopener">archlinux vmware tools</a></li>
+<li><a href="https://wiki.manjaro.org/index.php?title=Virtualbox" target="_blank" rel="noopener">virtualbox</a></li>
+</ol>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Dejary</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://dejary.github.io/2019/01/23/Linux/Linux-Manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">https://dejary.github.io/2019/01/23/Linux/Linux-Manjaro%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://dejary.github.io" target="_blank">墨岩小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Manjaro/">Manjaro</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2019/01/24/QT/QT-%E7%A7%BB%E6%A4%8DQt5-7%E5%88%B0%E5%B5%8C%E5%85%A5%E5%BC%8FLinux%E7%B3%BB%E7%BB%9F/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">移植Qt5.7到嵌入式Linux系统</div></div></a></div><div class="next-post pull_right"><a href="/2019/01/23/Linux/arm/dropbear%E4%BD%BF%E7%94%A8%E5%92%8C%E9%85%8D%E7%BD%AE/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">dropbear使用和配置</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'nick,mail,link')
+var requiredFields = requestSetting(['nick','mail','link'],'nick,mail')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'dDP6C5rM86CL7PQ321YUEy51-gzGzoHsz',
+  appKey: 'sxjYExbSvXGjfjHxiSNooevx',
+  notify: false,
+  verify: false,
+  placeholder: 'Please leave your footprints',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'en',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Dejary</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script defer id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script></body></html>
