@@ -274,7 +274,7 @@
 
 <p style="text-align: center">进程组是一组相关进程的集合，会话是一组相关进程组的集合</p>
 
-<p><img src= data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs= data-src="/images/linux_daemon_01.png" alt=""></p>
+<p><img src= data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs= data-src="https://i.loli.net/2020/06/01/4oO2cIupKiZYxj6.png" alt="linux_daemon_01.png"></p>
 <p>打开bash时，就是创建了一个会话。在bash中运行的程序，可以是前台进程，也可以是后台进程（加&amp;），bash关联了一个终端，可以接受输入输出并发送给前台进程。</p>
 <h1 id="创建守护进程的步骤"><a href="#创建守护进程的步骤" class="headerlink" title="创建守护进程的步骤"></a>创建守护进程的步骤</h1><p>普通进程都有关联一个控制终端、会话、进程组。而守护进程都不一样，因此要采用特殊的处理步骤来达到要求。</p>
 <h2 id="1-让程序在后台执"><a href="#1-让程序在后台执" class="headerlink" title="1. 让程序在后台执"></a>1. 让程序在后台执</h2><p>方法是调用fork（）产生一个子进程，然后使父进程exit（）退出。这么做的原因有以下两点：</p>
@@ -1842,7 +1842,7 @@
     <content><![CDATA[<p>Shell脚本中的命令会按照书写顺序串行执行，但是默认不对shell执行行为进行配置的话，即使某一条语句失败，下一条语句还是会接着执行。要控制这种行为有两种方式，一种是在脚本开始用<code>set -e</code>，另外一种是将需要保证执行成功的命令用<code>&amp;&amp;</code>连接起来。<br>建议在脚本的开头添加如下的内容。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 设置shell脚本的执行方式</span><br><span class="line">set -e #若指令传回值不等于0，则立即退出shell </span><br><span class="line">set -u #当执行时使用到未定义过的变量，则显示错误信息</span><br><span class="line">set -o pipefail #表示在管道连接的命令序列中，只要有任何一个命令返回非0值，则整个管道返回非0值，即使最后一个命令返回0.</span><br><span class="line">#set -x #执行指令后，会先显示该指令及所下的参数，调试时可以打开这个。</span><br></pre></td></tr></table></figure>
 
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>shell变量是一种很“弱”的变量，默认情况下，一个变量保存一个串，shell不关心这个串是什么含义。所以若要进行数学运算，必须使用一些命令例如let、declare、expr、双括号等。shell变量可分为两类：局部变量和环境变量。局部变量只在创建它们的shell中可用。而环境变量则可以在创建它们的shell及其派生出来的任意子进程中使用。有些变量是用户创建的，其他的则是专用shell变量。变量名必须以字母或下划线字符开头。其余的字符可以是字母、数字(0~9)或下划线字符。任何其他的字符都标志着变量名的终止。名字是大小写敏感的。给变量赋值时，等号周围不能有任何空白符。为了给变量赋空值，可以在等号后跟一个换行符。用set命令可以查看所有的变量，unset var命令可以清除变量var，var相当于没有定义过。readonly var可以把var变为只读变量，定义之后不能对var进行任何更改。对shell变量的引用方式很多，用这些方式可以方便的获取shell变量的值，变量值的长度，变量的一个字串，变量被部分替换后的值等等。shell变量常见引用方式如下：<br><img src= data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs= data-src="/images/linux_shell_variable_table1.png" alt=""></p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>shell变量是一种很“弱”的变量，默认情况下，一个变量保存一个串，shell不关心这个串是什么含义。所以若要进行数学运算，必须使用一些命令例如let、declare、expr、双括号等。shell变量可分为两类：局部变量和环境变量。局部变量只在创建它们的shell中可用。而环境变量则可以在创建它们的shell及其派生出来的任意子进程中使用。有些变量是用户创建的，其他的则是专用shell变量。变量名必须以字母或下划线字符开头。其余的字符可以是字母、数字(0~9)或下划线字符。任何其他的字符都标志着变量名的终止。名字是大小写敏感的。给变量赋值时，等号周围不能有任何空白符。为了给变量赋空值，可以在等号后跟一个换行符。用set命令可以查看所有的变量，unset var命令可以清除变量var，var相当于没有定义过。readonly var可以把var变为只读变量，定义之后不能对var进行任何更改。对shell变量的引用方式很多，用这些方式可以方便的获取shell变量的值，变量值的长度，变量的一个字串，变量被部分替换后的值等等。shell变量常见引用方式如下：<br><img src= data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs= data-src="https://i.loli.net/2020/06/01/eJuV3yXnQaHAgl4.png" alt="linux_shell_variable_table1.png"></p>
 <h2 id="特殊符号"><a href="#特殊符号" class="headerlink" title="特殊符号"></a>特殊符号</h2><ol>
 <li>跟执行命令有关的是：反引号、小括号（）、大括号{}</li>
 <li>跟条件表达式有关的是：双括号（用于整数的判断）、双中括号[[]]（能直接使用&amp;&amp; ||等符号）、中括号[]（不能使用&amp;&amp; || &lt; &gt; 等）</li>
